@@ -103,13 +103,19 @@ private: // Auxillary Functions
                     isSDifference = !isSDifference;
                 }
             }
+            for(int i = 0; i < 3; ++i){
+                for(int j = 1; j < 6; ++j){
+                    if(i != pivotRow){
+                        if(isSDifference){
+                            _tableau[i][j] = _tableau[i][j]-(fDifference*_tableau[pivotRow][pivotColumn]);
+                        }else{
+                            _tableau[i][j] = _tableau[i][j]-(sDifference*_tableau[pivotRow][pivotColumn]);
+                        }
+                    }
+                }
+                isSDifference = !isSDifference;
+            }
             printTableau();
-
-            std::cout  << "Differences -> " << fDifference << ":" << sDifference << std::endl;
-            std::cout  << "Pivot Column -> " << pivotColumn << std::endl;
-            std::cout  << "Pivot Row -> " << pivotRow << std::endl;
-            std::cout  << "Pivot Value -> " << _tableau[pivotRow][pivotColumn] << std::endl;
-        
         }
     }
 
