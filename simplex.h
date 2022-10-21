@@ -97,12 +97,18 @@ private: // Auxillary Functions
                         fDifference = _tableau[i][pivotColumn];
                         _tableau[i][pivotColumn] = _tableau[i][pivotColumn]-(fDifference*_tableau[pivotRow][pivotColumn]);
                         for(int j = 0; j < 6; ++j){
+                            if(j == pivotColumn){
+                                ++j;
+                            }
                             _tableau[i][j] = _tableau[i][j]-(fDifference*_tableau[pivotRow][j]);
                         }
                     }else{
                         sDifference = _tableau[i][pivotColumn];
                         _tableau[i][pivotColumn] = _tableau[i][pivotColumn]-(sDifference*_tableau[pivotRow][pivotColumn]);
                         for(int j = 0; j < 6; ++j){
+                            if(j == pivotColumn){
+                                ++j;
+                            }
                             _tableau[i][j] = _tableau[i][j]-(sDifference*_tableau[pivotRow][j]);
                         }
                     }
@@ -110,6 +116,7 @@ private: // Auxillary Functions
                 }
             }
             printTableau();
+            solveSimplex();
         }else{
             return;
         }
