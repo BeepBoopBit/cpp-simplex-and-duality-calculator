@@ -6,6 +6,6 @@ int main(){
     double second[] = {4,1,36};
     double objective[] = {5,4};
     _calculator.solveForMinimization(first, second, objective);
-
+    _calculator.printAnswers();
     return 0;
 }

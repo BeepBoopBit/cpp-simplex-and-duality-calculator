@@ -26,6 +26,25 @@ public:
         solveSimplex();
     }
 
+    std::vector<double> getAnswers(){
+        std::vector<double> answers;
+        for(int i = 0; i < 3; ++i){
+            for(int j = 0; j < 3; ++j){
+                if(_tableau[j][i] == 1){
+                    answers.push_back(_tableau[j][5]);
+                }
+            }
+        }
+        answers.push_back(_tableau[2][5]);
+        return answers;
+    }
+
+    void printAnswers(){
+        std::vector<double> answers = getAnswers();
+        std::cout << "x1 = " << answers[0] << std::endl;
+        std::cout << "x2 = " << answers[1] << std::endl;
+        std::cout << "P = " << answers[2] << std::endl;
+    }
 
 private: // Auxillary Functions
 
