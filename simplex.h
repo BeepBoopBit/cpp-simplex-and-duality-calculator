@@ -116,6 +116,7 @@ private: // Auxillary Functions
                 isSDifference = !isSDifference;
             }
             printTableau();
+            
         }
     }
 
