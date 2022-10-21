@@ -96,29 +96,26 @@ private: // Auxillary Functions
                     if(isSDifference){
                         fDifference = _tableau[i][pivotColumn];
                         _tableau[i][pivotColumn] = _tableau[i][pivotColumn]-(fDifference*_tableau[pivotRow][pivotColumn]);
+                        for(int j = 0; j < 6; ++j){
+                            _tableau[i][j] = _tableau[i][j]-(fDifference*_tableau[pivotRow][j]);
+                        }
                     }else{
                         sDifference = _tableau[i][pivotColumn];
                         _tableau[i][pivotColumn] = _tableau[i][pivotColumn]-(sDifference*_tableau[pivotRow][pivotColumn]);
+                        for(int j = 0; j < 6; ++j){
+                            _tableau[i][j] = _tableau[i][j]-(sDifference*_tableau[pivotRow][j]);
+                        }
                     }
                     isSDifference = !isSDifference;
                 }
             }
-            for(int i = 0; i < 3; ++i){
-                for(int j = 1; j < 6; ++j){
-                    if(i != pivotRow){
-                        if(isSDifference){
-                            _tableau[i][j] = _tableau[i][j]-(fDifference*_tableau[pivotRow][pivotColumn]);
-                        }else{
-                            _tableau[i][j] = _tableau[i][j]-(sDifference*_tableau[pivotRow][pivotColumn]);
-                        }
-                    }
-                }
-                isSDifference = !isSDifference;
-            }
             printTableau();
-            
+        }else{
+            return;
         }
     }
+
+private: // solving simplex
 
 private: // others
     void printTableau(){
