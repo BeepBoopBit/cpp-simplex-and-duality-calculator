@@ -13,6 +13,7 @@ public: // Constructor
 
 public:
     void solveForMinimization(std::vector<double> first, std::vector<double> second, std::vector<double> objective){
+        // Check for the size of the vectors
         if((first.size() <= 0 && first.size() > 3 ) || ((second.size() <= 0 && second.size() > 3 ))){
             std::cout << "Error: The size of the vectors must be (0,2]" << std::endl;
             return;
@@ -28,6 +29,8 @@ public:
 
     std::vector<double> getAnswers(){
         std::vector<double> answers;
+
+        // check the columns of x1 and x2 if there is a value of one and put it in the answers
         for(int i = 0; i < 3; ++i){
             for(int j = 0; j < 3; ++j){
                 if(_tableau[j][i] == 1){
@@ -35,6 +38,8 @@ public:
                 }
             }
         }
+
+        // push the last value of the objective function
         answers.push_back(_tableau[2][5]);
         return answers;
     }
@@ -65,11 +70,10 @@ private: // Auxillary Functions
     }
 
     void solveSimplex(){
-        double lowest = 0;
-        int pivotColumn = 0;
-        bool isContainsNegative     = false;
+        double  lowest              = 0; // lowest value in the objective function
+        int     pivotColumn         = 0;
+        bool    isContainsNegative  = false;
         
-        // Lowest -> lowest value in the objective function
         for(int i = 0; i < 6; ++i){
             if(_tableau[2][i] < lowest){
                 lowest              = _tableau[2][i];
@@ -79,10 +83,10 @@ private: // Auxillary Functions
         }
 
         if(isContainsNegative){
-            lowest          = INT_MAX; // Lowest -> lowest value in the column
+            lowest          = INT_MAX; //  lowest value in the column
             int pivotRow    = 0;
 
-            // Find the lowest value in the column 
+            // Find the lowest value in the column by getting the ratio of the last column and the pivot column 
             for(int i = 0; i < 2; ++i){
                 double temp = _tableau[i][5] / _tableau[i][pivotColumn];
                 if(temp < lowest){
@@ -105,16 +109,23 @@ private: // Auxillary Functions
                 _tableau[pivotRow][i] *= pivotFormula;
             }
 
+            double fDifference      = 0, // difference for the first relative row
+                   sDifference      = 0; // difference for the second relative row
+            bool   isFDifference    = true; // flag for the second difference
 
             // Identify pivot column formula
-            double fDifference = 0,
-                   sDifference = 0;
-            bool isSDifference = true;
             for(int i = 0; i < 3; ++i){
+                // if it's not in the pivot row
                 if(i != pivotRow){
-                    if(isSDifference){
+                    // check if it's the first difference
+                    if(isFDifference){
+                        // get the value of the pivot column relative to the current row
                         fDifference = _tableau[i][pivotColumn];
+                        
+                        // apply the formula using the fDifference
                         _tableau[i][pivotColumn] = _tableau[i][pivotColumn]-(fDifference*_tableau[pivotRow][pivotColumn]);
+
+                        // apply the formula to all the rows
                         for(int j = 0; j < 6; ++j){
                             if(j == pivotColumn){
                                 ++j;
@@ -122,8 +133,13 @@ private: // Auxillary Functions
                             _tableau[i][j] = _tableau[i][j]-(fDifference*_tableau[pivotRow][j]);
                         }
                     }else{
+                        // get the value of the pivot column relative to the current row
                         sDifference = _tableau[i][pivotColumn];
+
+                        // apply the formula using the fDifference
                         _tableau[i][pivotColumn] = _tableau[i][pivotColumn]-(sDifference*_tableau[pivotRow][pivotColumn]);
+
+                        // apply the formula to all the rows
                         for(int j = 0; j < 6; ++j){
                             if(j == pivotColumn){
                                 ++j;
@@ -131,7 +147,7 @@ private: // Auxillary Functions
                             _tableau[i][j] = _tableau[i][j]-(sDifference*_tableau[pivotRow][j]);
                         }
                     }
-                    isSDifference = !isSDifference;
+                    isFDifference = !isFDifference;
                 }
             }
             printTableau();
