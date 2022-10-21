@@ -12,7 +12,7 @@ public: // Constructor
     }
 
 public:
-    void solveForMinimization(std::vector<int> first, std::vector<int> second, std::vector<int> objective){
+    void solveForMinimization(std::vector<double> first, std::vector<double> second, std::vector<double> objective){
         if((first.size() <= 0 && first.size() > 3 ) || ((second.size() <= 0 && second.size() > 3 ))){
             std::cout << "Error: The size of the vectors must be (0,2]" << std::endl;
             return;
@@ -21,7 +21,7 @@ public:
         solveSimplex();
     }
 
-    void solveForMinimization(int *first, int *second, int *objective){
+    void solveForMinimization(double first[3], double second[3], double objective[2]){
         initializeTableau(first[0], first[1], first[2], second[0], second[1], second[2], objective[0], objective[1]);
         solveSimplex();
     }
@@ -29,7 +29,7 @@ public:
 
 private: // Auxillary Functions
 
-    void initializeTableau(int f1, int f2, int c1, int s1, int s2, int c2, int obj1, int obj2){
+    void initializeTableau(double f1, double f2, double c1, double s1, double s2, double c2, double obj1, double obj2){
         _tableau[0][0] = f1;
         _tableau[0][1] = f2;
         _tableau[0][5] = c1;
@@ -46,7 +46,8 @@ private: // Auxillary Functions
     }
 
     void solveSimplex(){
-        int lowest = 0, pivotColumn = 0;
+        double lowest = 0;
+        int pivotColumn = 0;
         bool isContainsNegative     = false;
         
         // Lowest -> lowest value in the objective function
@@ -59,13 +60,14 @@ private: // Auxillary Functions
         }
 
         if(isContainsNegative){
-            lowest          = 0; // Lowest -> lowest value in the column
+            lowest          = INT_MAX; // Lowest -> lowest value in the column
             int pivotRow    = 0;
 
             // Find the lowest value in the column 
             for(int i = 0; i < 2; ++i){
-                if(_tableau[i][pivotColumn] < lowest){
-                    lowest = _tableau[i][5] / _tableau[i][pivotColumn];
+                double temp = _tableau[i][5] / _tableau[i][pivotColumn];
+                if(temp < lowest){
+                    lowest = temp;
                     pivotRow = i;
                 }
             }
@@ -84,20 +86,43 @@ private: // Auxillary Functions
                 _tableau[pivotRow][i] *= pivotFormula;
             }
 
+
+            // Identify pivot column formula
+            double fDifference = 0,
+                   sDifference = 0;
+            bool isSDifference = true;
+            for(int i = 0; i < 3; ++i){
+                if(i != pivotRow){
+                    if(isSDifference){
+                        fDifference = _tableau[i][pivotColumn];
+                        _tableau[i][pivotColumn] = _tableau[i][pivotColumn]-(fDifference*_tableau[pivotRow][pivotColumn]);
+                    }else{
+                        sDifference = _tableau[i][pivotColumn];
+                        _tableau[i][pivotColumn] = _tableau[i][pivotColumn]-(sDifference*_tableau[pivotRow][pivotColumn]);
+                    }
+                    isSDifference = !isSDifference;
+                }
+            }
             printTableau();
+
+            std::cout  << "Differences -> " << fDifference << ":" << sDifference << std::endl;
+            std::cout  << "Pivot Column -> " << pivotColumn << std::endl;
+            std::cout  << "Pivot Row -> " << pivotRow << std::endl;
+            std::cout  << "Pivot Value -> " << _tableau[pivotRow][pivotColumn] << std::endl;
+        
         }
     }
 
 private: // others
     void printTableau(){
-        std::cout << '[' << _printCount++ << "]\n\n";
+        std::cout << '[' << _printCount++ << "]\n";
         for(int i = 0; i < 3; ++i){
             for(int j = 0; j < 6; ++j){
                 std::cout << std::setw(5) << _tableau[i][j] << "|";
             }
             std::cout << "\n-------------------------------------\n";
         }
-        std::cout << "\n\n";
+        std::cout << "\n";
     }
 
 private: // Variables

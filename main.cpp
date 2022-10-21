@@ -2,8 +2,10 @@
 
 int main(){
     SimplexMethod _calculator;
-    int first[] = {1,2,3};
-    int second[] = {3,2,1};
-    int objective[] = {1,2};
+    double first[] = {3,5,78};
+    double second[] = {4,1,36};
+    double objective[] = {5,4};
     _calculator.solveForMinimization(first, second, objective);
+
+    return 0;
 }
