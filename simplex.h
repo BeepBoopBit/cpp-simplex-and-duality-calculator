@@ -244,6 +244,7 @@ private: // Auxillary Functions
             for(int j = 0; j < columnCount; ++j){
                 _vectorTableau[i][j] = _vectorTableau[i][j]-(difference*_vectorTableau[pivotRow][j]);
             }
+            printTableauVector();
         }
         solveSimplexVector();
         printTableauVector();
