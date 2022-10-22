@@ -27,6 +27,52 @@ public:
         solveSimplex();
     }
 
+    void solveForMinimization(std::vector<double*> constraints, std::vector<double> objective){
+        // Check for the size of the vectors
+        if((objective.size() <= 0 && objective.size() > 3 )){
+            std::cout << "Error: The size of the vectors must be (0,2]" << std::endl;
+            return;
+        }
+
+        // push all the contents to the _vectorTableau
+        int pushCount = 0;
+        for(int i = 0; i < constraints.size(); i++){
+            std::vector<double> tempData;
+            for(int j = 0; j < 2; ++j){
+                tempData.push_back(constraints[i][j]);
+            }
+            for(int j = 0; j < constraints.size()+1; ++j){
+                if(j == pushCount){
+                    tempData.push_back(1);
+                }else{
+                    tempData.push_back(0);
+                }
+            }
+            tempData.push_back(constraints[i][2]);
+            _vectorTableau.push_back(tempData);
+            ++pushCount;
+        }
+
+        // push the objective function to the _vectorTableau
+        {
+            std::vector<double> tempData;
+            for(int i = 0; i < objective.size(); ++i){
+                tempData.push_back(-1*objective[i]);
+            }
+            for(int j = 0; j < constraints.size()+2; ++j){
+                if(j == pushCount){
+                    tempData.push_back(1);
+                }else{
+                    tempData.push_back(0);
+                }
+            }
+            _vectorTableau.push_back(tempData);
+        }
+
+        // Testing
+        solveSimplexVector();
+    }
+
     std::vector<double> getAnswers(){
         std::vector<double> answers;
 
@@ -157,6 +203,52 @@ private: // Auxillary Functions
         }
     }
 
+    void solveSimplexVector(){
+        double  lowest      = INT_MAX;
+        int     pivotColumn = 0;
+        auto    columnCount    = _vectorTableau[0].size(),
+                rowCount = _vectorTableau.size();
+        
+        for(int i = 0; i < columnCount; ++i){
+            double value = _vectorTableau[rowCount-1][i]; 
+            if(value < lowest){
+                lowest = value;
+                pivotColumn = i;
+            }
+        }
+
+        if(lowest >= 0){
+            return;
+        }
+        lowest = INT_MAX;
+        int pivotRow = 0;
+        for(int i = 0 ; i < rowCount-1; ++i){
+            double value = _vectorTableau[i][columnCount-1]/_vectorTableau[i][pivotColumn];
+            if(value > 0 && value < lowest){
+                lowest = value;
+                pivotRow = i;
+            }
+        }
+
+        double pivotFormula = 1/_vectorTableau[pivotRow][pivotColumn];
+
+        for(int i = 0; i < columnCount; ++i){
+            _vectorTableau[pivotRow][i] *= pivotFormula;
+        }
+
+        for(int i = 0; i < rowCount; ++i){
+            if(i == pivotRow){
+                ++i;
+            }
+            double difference = _vectorTableau[i][pivotColumn];
+            for(int j = 0; j < columnCount; ++j){
+                _vectorTableau[i][j] = _vectorTableau[i][j]-(difference*_vectorTableau[pivotRow][j]);
+            }
+        }
+        solveSimplexVector();
+        printTableauVector();
+    }
+
 private: // solving simplex
 
 private: // others
@@ -170,6 +262,16 @@ private: // others
         }
         std::cout << "\n";
     }
+    void printTableauVector(){
+        std::cout << '[' << _printCount++ << "]\n";
+        for(int i = 0; i < _vectorTableau.size(); ++i){
+            for(int j = 0; j < _vectorTableau[i].size(); ++j){
+                std::cout << std::setw(6) << _vectorTableau[i][j] << " ";
+            }
+            std::cout << std::endl;
+        }
+        std::cout << "\n";
+    }
 
 private: // Variables
     double _tableau[3][6]{
@@ -177,6 +279,7 @@ private: // Variables
         {0, 0, 0, 1.0, 0, 0},
         {0, 0, 0, 0, 1.0, 0}
     };
+    std::vector<std::vector<double>> _vectorTableau;
     int _printCount = 1;
 };
 
