@@ -10,37 +10,34 @@ public:
 
 public:
     void solveForMaximization(std::vector<std::vector<double>> data, std::vector<double> objectives){
-        data.push_back(objectives);
-        int multiplier = 1, count = 0;
-
+        int multiplier = 1, count = 0, objIndex = 0;
         for(int i = 0; i < data[0].size(); ++i){
-            if(i == data[0].size()-1){
-                multiplier = -1;
-            }
             std::vector<double> tempData;
-            for(int j = 0; j < data.size()-1; ++j){
+            for(int j = 0; j < data.size(); ++j){
                 tempData.push_back(data[j][i]*multiplier);
             }
-            for(int j = 0; j < data.size()-1; ++j){
+            auto tempSize = tempData.size() + 1;
+            for(int j = 0; j < data.size()+tempSize; ++j){
                 if(count == j){
                     tempData.push_back(1);
                 }else{
                     tempData.push_back(0);
                 }
             }
-
-            if(i == data[0].size()-1){
-                tempData.push_back(0);
+            if(objIndex < objectives.size()){
+                tempData.push_back(objectives[objIndex++]);
             }else{
-                tempData.push_back(data[data.size()-1][i]*multiplier);
+                tempData.push_back(0);
             }
             _vectorTableau.push_back(tempData);
             ++count;
+            if(i == data[0].size()-2){
+                multiplier = -1;
+            }
         }
+
         printTableau();
-        //_simplex.solveForMinimization(_vectorTableau);
-        //_simplex.printAnswers();
-        //_vectorTableau = _simplex.getTableau();
+        _simplex.solveForMinimization(_vectorTableau);
     }
 
 private: // test

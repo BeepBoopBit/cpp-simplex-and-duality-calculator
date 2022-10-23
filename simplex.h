@@ -62,6 +62,11 @@ public:
         solveSimplex();
     }
 
+    void solveForMinimization(std::vector<std::vector<double>> tableau){
+        _vectorTableau = tableau;
+        solveSimplex();
+    }
+
 public: // Getters
 
     std::vector<std::vector<double>> getTableau(){
@@ -138,17 +143,18 @@ private: // Auxillary Functions
             }
 
             // Identify pivot column formula
-            for(int i = 0; i < 3; ++i){
+            for(int i = 0; i < noOfEquation+1; ++i){
                 // if it's not in the pivot row
                 if(i != pivotRow){
                     // Get the multiplier
                     double fDifference = _vectorTableau[i][pivotColumn];
 
                     // apply the formula to all the rows
-                    for(int j = 0; j < 6; ++j){
+                    for(int j = 0; j < noOfVariables+1; ++j){
                         _vectorTableau[i][j] = _vectorTableau[i][j]-(fDifference*_vectorTableau[pivotRow][j]);
                     }
                 }
+                printTableauVector();
             }
             printTableauVector();
             solveSimplex();
@@ -164,7 +170,7 @@ private: // others
         std::cout << '[' << _printCount++ << "]\n";
         for(int i = 0; i < _vectorTableau.size(); ++i){
             for(int j = 0; j < _vectorTableau[i].size(); ++j){
-                std::cout << std::setw(6) << _vectorTableau[i][j] << " ";
+                std::cout << std::setw(8) << _vectorTableau[i][j] << " ";
             }
             std::cout << std::endl;
         }
