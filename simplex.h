@@ -70,7 +70,17 @@ public:
         }
 
         // Testing
+        printTableauVector();
         solveSimplexVector();
+    }
+
+    void solveForMinimization(std::vector<std::vector<double>> tableau){
+        _vectorTableau = tableau;
+        solveSimplexVector();
+    }
+
+    std::vector<std::vector<double>> getTableau(){
+        return _vectorTableau;
     }
 
     std::vector<double> getAnswers(){
