@@ -38,9 +38,9 @@ public:
             ++count;
         }
         printTableau();
-        _simplex.solveForMinimization(_vectorTableau);
-        _simplex.printAnswers();
-        _vectorTableau = _simplex.getTableau();
+        //_simplex.solveForMinimization(_vectorTableau);
+        //_simplex.printAnswers();
+        //_vectorTableau = _simplex.getTableau();
     }
 
 private: // test
