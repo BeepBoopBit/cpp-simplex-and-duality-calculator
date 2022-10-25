@@ -28,6 +28,20 @@ void problemSet02(){
     _calculator.solveForMaximization(data, objective);
 }
 
+void testing00(){
+    DualityMethod _calculator;
+    std::vector<double> first = {1,2,4};
+    std::vector<double> second = {7,6,20};
+    std::vector<double> objective = {14,20};
+
+    std::vector<std::vector<double>> data;
+    data.push_back(first);
+    data.push_back(second);
+
+    _calculator.solveForMaximization(data, objective);
+}
+
+
 int main(){
     problemSet02();
     return 0;
