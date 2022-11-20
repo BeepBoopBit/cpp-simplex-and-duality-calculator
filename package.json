@@ -2,7 +2,7 @@
   "name": "@beepboopbit/cpp-simplex-duality-calculator",
   "version": "1.0.0",
   "description": "A calculator for simplex and duality",
-  "main": "index.js",
+  "main": "main.cpp",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
