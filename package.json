@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/BeepBoopBit/cpp-simplex-and-duality-calculator#readme",
   "publishConfig": {
-    "@beepboopbit:registry": "https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com"
   }
 }
