@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/BeepBoopBit/cpp-simplex-and-duality-calculator/issues"
   },
-  "homepage": "https://github.com/BeepBoopBit/cpp-simplex-and-duality-calculator#readme"
+  "homepage": "https://github.com/BeepBoopBit/cpp-simplex-and-duality-calculator#readme",
+  "publishConfig": {
+    "@beepboopbit:registry": "https://npm.pkg.github.com"
+  }
 }
