@@ -1,0 +1,19 @@
+{
+  "name": "cpp-simplex-duality-calculator",
+  "version": "1.0.0",
+  "description": "A calculator for simplex and duality",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BeepBoopBit/cpp-simplex-and-duality-calculator.git"
+  },
+  "author": "Renz Aguirre",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BeepBoopBit/cpp-simplex-and-duality-calculator/issues"
+  },
+  "homepage": "https://github.com/BeepBoopBit/cpp-simplex-and-duality-calculator#readme"
+}
