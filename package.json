@@ -1,6 +1,6 @@
 {
   "name": "@beepboopbit/cpp-simplex-duality-calculator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A calculator for simplex and duality",
   "main": "main.cpp",
   "scripts": {
